@@ -16,7 +16,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/sys/notice")
+@RequestMapping("/sys/notices")
 @Slf4j
 @RequiredArgsConstructor
 @Tag(name = "公告管理")

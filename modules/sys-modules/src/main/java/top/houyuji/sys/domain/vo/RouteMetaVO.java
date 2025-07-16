@@ -1,4 +1,4 @@
-package top.houyuji.common.satoken.domain.vo;
+package top.houyuji.sys.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;

@@ -20,9 +20,11 @@ import top.houyuji.sys.domain.dto.MenuSaveDTO;
 import top.houyuji.sys.domain.entity.SysMenu;
 import top.houyuji.sys.domain.entity.SysRole;
 import top.houyuji.sys.domain.query.MenuQuery;
+import top.houyuji.sys.domain.vo.RouteVO;
 import top.houyuji.sys.mapper.SysMenuMapper;
 import top.houyuji.sys.service.mapstruct.SysMenuMapstruct;
 import top.houyuji.sys.service.mapstruct.SysMenuSaveMapstruct;
+import top.houyuji.utils.RouteUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -53,6 +55,24 @@ public class SysMenuService extends BaseService<SysMenuMapper, SysMenu> {
         List<String> roleIds = CollectionUtil.listToList(roles, SysRole::getId);
         List<SysMenu> sysMenus = listByRoleIds(roleIds);
         return sysMenuMapstruct.toDTOList(sysMenus);
+    }
+
+    /**
+     * 获取路由
+     *
+     * @param menus 菜单
+     * @return 路由
+     */
+    private List<RouteVO> getRoutes(List<MenuDTO> menus) {
+        if (null == menus) {
+            return List.of();
+        }
+        return RouteUtil.buildRoutes(menus);
+    }
+
+    public List<RouteVO> getRoutes(String userId) {
+        List<MenuDTO> menuDTOS = userRoutes(userId);
+        return getRoutes(menuDTOS);
     }
 
     /**

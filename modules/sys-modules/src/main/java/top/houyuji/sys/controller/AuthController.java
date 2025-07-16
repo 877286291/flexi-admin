@@ -1,11 +1,9 @@
-package top.houyuji.common.satoken.controller;
+package top.houyuji.sys.controller;
 
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,21 +15,21 @@ import top.houyuji.common.base.R;
 import top.houyuji.common.base.core.UserInfo;
 import top.houyuji.common.base.utils.PasswordUtil;
 import top.houyuji.common.cache.core.FlexiAdminCache;
-import top.houyuji.common.satoken.domain.LoginRequest;
-import top.houyuji.common.satoken.domain.dto.UserInfoDTO;
-import top.houyuji.common.satoken.domain.vo.LoginInfoVo;
-import top.houyuji.common.satoken.service.UserLoginService;
-import top.houyuji.common.satoken.service.mapstruct.LoginInfoMapstruct;
-import top.houyuji.common.satoken.utils.SaTokenUtil;
+import top.houyuji.sys.domain.dto.UserInfoDTO;
+import top.houyuji.sys.domain.query.LoginQuery;
+import top.houyuji.sys.domain.vo.LoginInfoVo;
+import top.houyuji.sys.service.SysAuthService;
+import top.houyuji.sys.service.mapstruct.SysAuthMapstruct;
+import top.houyuji.utils.SaTokenUtil;
 
 @RestController
 @RequestMapping("/auth")
 @Slf4j
-@Tag(name = "授权")
+@Tag(name = "授权管理")
 @RequiredArgsConstructor
 public class AuthController {
-    private final LoginInfoMapstruct loginInfoMapstruct;
-    private final UserLoginService userLoginService;
+    private final SysAuthMapstruct sysAuthMapstruct;
+    private final SysAuthService sysAuthService;
     private final FlexiAdminCache flexiAdminCache;
 
     /**
@@ -46,23 +44,13 @@ public class AuthController {
             @ApiResponse(
                     responseCode = "0",
                     description = "登录成功"
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "登录异常",
-                    content = @Content(schema = @Schema(implementation = R.class))
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "认证失败",
-                    content = @Content(schema = @Schema(implementation = R.class))
             )
     })
-    public R<LoginInfoVo> loginByUsername(@Validated @RequestBody LoginRequest query) {
+    public R<LoginInfoVo> loginByUsername(@Validated @RequestBody LoginQuery query) {
         // 公钥加密私钥解密
         String password = query.getPassword();
         String username = query.getUsername();
-        UserInfoDTO user = userLoginService.findByUsername(username);
+        UserInfoDTO user = sysAuthService.findByUsername(username);
         // 验证密码
         if (!PasswordUtil.matches(password, user.getPassword())) {
             return R.error("用户名或密码错误");
@@ -74,9 +62,9 @@ public class AuthController {
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         String token = tokenInfo.getTokenValue();
         // 返回用户信息
-        LoginInfoVo res = loginInfoMapstruct.toDTO(user);
-        res.setToken(token);
-        return R.ok(res);
+        LoginInfoVo loginInfoVo = sysAuthMapstruct.toDTO(user);
+        loginInfoVo.setToken(token);
+        return R.ok(loginInfoVo);
     }
 
     /**
@@ -89,15 +77,10 @@ public class AuthController {
                     responseCode = "0",
                     description = "获取用户信息成功"
             ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "获取用户信息异常",
-                    content = @Content(schema = @Schema(implementation = R.class))
-            )
     })
     public R<LoginInfoVo> userInfo() {
         UserInfoDTO currentUser = SaTokenUtil.getCurrentUser();
-        return R.ok(loginInfoMapstruct.toDTO(currentUser));
+        return R.ok(sysAuthMapstruct.toDTO(currentUser));
     }
 
     @PostMapping("/logout")

@@ -1,6 +1,7 @@
 package top.houyuji.sys.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
@@ -18,7 +19,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/sys/role")
+@RequestMapping("/sys/roles")
 @Tag(name = "角色管理")
 @RequiredArgsConstructor
 public class RoleController {
@@ -62,8 +63,8 @@ public class RoleController {
     @GetMapping("/existsByCode")
     @Operation(summary = "编码是否存在")
     @Parameters({
-            @io.swagger.v3.oas.annotations.Parameter(name = "code", description = "编码", required = true),
-            @io.swagger.v3.oas.annotations.Parameter(name = "id", description = "需要排除的编码")
+            @Parameter(name = "code", description = "编码", required = true),
+            @Parameter(name = "id", description = "需要排除的编码")
     })
     public R<Boolean> existsByCode(@RequestParam(name = "code") String code, @RequestParam(name = "id", required =
             false) String id) {
@@ -78,7 +79,7 @@ public class RoleController {
      * @return 是否成功
      */
     @PostMapping
-    @Operation(summary = "添加")
+    @Operation(summary = "添加角色")
     public R<String> save(@Validated @RequestBody RoleDTO RoleDTO) {
         sysRoleService.save(RoleDTO);
         return R.ok();
@@ -91,7 +92,7 @@ public class RoleController {
      * @return 是否成功
      */
     @PutMapping
-    @Operation(summary = "更新")
+    @Operation(summary = "更新角色")
     public R<String> updateById(@RequestBody RoleDTO RoleDTO) {
         if (RoleDTO.getId() == null) {
             return R.error("角色ID不能为空");
@@ -107,9 +108,9 @@ public class RoleController {
      * @return 是否成功
      */
     @DeleteMapping
-    @Operation(summary = "删除")
+    @Operation(summary = "删除角色")
     @Parameters({
-            @io.swagger.v3.oas.annotations.Parameter(name = "id", description = "角色id", required = true)
+            @Parameter(name = "id", description = "角色id", required = true)
     })
     public R<String> deleteById(@RequestParam(name = "id") String id) {
         sysRoleService.deleteById(id);

@@ -1,17 +1,14 @@
-package top.houyuji.login;
+package top.houyuji.sys.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import top.houyuji.common.base.exception.UsernameNotFoundException;
 import top.houyuji.common.base.utils.StrUtil;
-import top.houyuji.common.satoken.domain.dto.UserInfoDTO;
+import top.houyuji.sys.domain.dto.UserInfoDTO;
 import top.houyuji.sys.domain.entity.SysMenu;
 import top.houyuji.sys.domain.entity.SysRole;
 import top.houyuji.sys.domain.entity.SysUser;
-import top.houyuji.sys.service.SysMenuService;
-import top.houyuji.sys.service.SysRoleService;
-import top.houyuji.sys.service.SysUserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,12 +16,11 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class UserLoginService implements top.houyuji.common.satoken.service.UserLoginService {
+public class SysAuthService {
     private final SysUserService sysUserService;
     private final SysRoleService sysRoleService;
     private final SysMenuService sysMenuService;
 
-    @Override
     public UserInfoDTO findByUsername(String username) {
         return adminLogin(username);
     }
@@ -74,7 +70,6 @@ public class UserLoginService implements top.houyuji.common.satoken.service.User
         userInfo.setEnabled(user.getEnabled());
         return userInfo;
     }
-
 
     private List<String> getPermissionsByAdmin(List<SysMenu> menus) {
         if (menus == null || menus.isEmpty()) {

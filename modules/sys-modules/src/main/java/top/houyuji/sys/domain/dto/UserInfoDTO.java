@@ -1,4 +1,4 @@
-package top.houyuji.common.satoken.domain.dto;
+package top.houyuji.sys.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;

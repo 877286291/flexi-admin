@@ -12,7 +12,6 @@ import top.houyuji.common.api.JsfPage;
 import top.houyuji.common.base.R;
 import top.houyuji.common.base.utils.CollectionUtil;
 import top.houyuji.common.base.utils.PasswordUtil;
-import top.houyuji.common.satoken.utils.SaTokenUtil;
 import top.houyuji.sys.domain.dto.RoleSmallDTO;
 import top.houyuji.sys.domain.dto.UserDTO;
 import top.houyuji.sys.domain.dto.UserRestPwdDTO;
@@ -20,12 +19,13 @@ import top.houyuji.sys.domain.dto.UserSaveDTO;
 import top.houyuji.sys.domain.entity.SysUser;
 import top.houyuji.sys.domain.query.UserQuery;
 import top.houyuji.sys.service.SysUserService;
+import top.houyuji.utils.SaTokenUtil;
 
 import java.util.List;
 
 
 @RestController
-@RequestMapping("/sys/user")
+@RequestMapping("/sys/users")
 @RequiredArgsConstructor
 @Tag(name = "用户管理")
 public class UserController {

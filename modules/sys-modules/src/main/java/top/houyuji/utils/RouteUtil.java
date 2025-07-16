@@ -1,13 +1,13 @@
-package top.houyuji.util;
+package top.houyuji.utils;
 
 import jakarta.annotation.Nonnull;
 import lombok.experimental.UtilityClass;
 import top.houyuji.common.base.enums.MenuTypeEnums;
 import top.houyuji.common.base.utils.CollectionUtil;
 import top.houyuji.common.base.utils.TreeUtil;
-import top.houyuji.common.satoken.domain.vo.RouteMetaVO;
-import top.houyuji.common.satoken.domain.vo.RouteVO;
 import top.houyuji.sys.domain.dto.MenuDTO;
+import top.houyuji.sys.domain.vo.RouteMetaVO;
+import top.houyuji.sys.domain.vo.RouteVO;
 
 import java.util.ArrayList;
 import java.util.List;

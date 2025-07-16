@@ -1,10 +1,10 @@
-package top.houyuji.common.satoken.utils;
+package top.houyuji.utils;
 
 import cn.dev33.satoken.stp.StpUtil;
 import top.houyuji.common.base.AppUtil;
 import top.houyuji.common.base.core.UserInfo;
-import top.houyuji.common.satoken.domain.dto.UserInfoDTO;
-import top.houyuji.common.satoken.service.UserLoginService;
+import top.houyuji.sys.domain.dto.UserInfoDTO;
+import top.houyuji.sys.service.SysAuthService;
 
 public class SaTokenUtil {
     /**
@@ -13,10 +13,10 @@ public class SaTokenUtil {
      * @return .
      */
     public static UserInfoDTO getCurrentUser() {
-        UserLoginService userLoginService = AppUtil.getBean(UserLoginService.class);
+        SysAuthService sysAuthService = AppUtil.getBean(SysAuthService.class);
         UserInfo userinfo = (UserInfo) StpUtil.getSession().get("userinfo");
         String username = userinfo.getUsername();
-        return userLoginService.findByUsername(username);
+        return sysAuthService.findByUsername(username);
     }
 
     /**

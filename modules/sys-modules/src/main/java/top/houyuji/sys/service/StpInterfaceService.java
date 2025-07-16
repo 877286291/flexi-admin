@@ -1,4 +1,4 @@
-package top.houyuji.login;
+package top.houyuji.sys.service;
 
 import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.StpInterface;
@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import top.houyuji.common.base.core.UserInfo;
 import top.houyuji.sys.domain.entity.SysMenu;
 import top.houyuji.sys.domain.entity.SysRole;
-import top.houyuji.sys.service.SysMenuService;
-import top.houyuji.sys.service.SysRoleService;
 
 import java.util.List;
 

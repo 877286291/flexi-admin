@@ -1,4 +1,4 @@
-package top.houyuji.common.satoken.domain.vo;
+package top.houyuji.sys.domain.vo;
 
 import java.io.Serializable;
 import java.util.List;
