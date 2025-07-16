@@ -52,20 +52,20 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
     boolean existsUserByRoleId(String roleId);
 
     /**
-     * 根据角色id查询权限id
+     * 根据角色id查询菜单id
      *
      * @param roleId 角色id
-     * @return 权限id
+     * @return 菜单id
      */
-    @Select("SELECT permission_id FROM sys_role_permission WHERE role_id = #{roleId}")
-    List<String> getPermissionIdsByRoleId(String roleId);
+    @Select("SELECT menu_id FROM sys_role_menu WHERE role_id = #{roleId}")
+    List<String> getMenuIdsByRoleId(String roleId);
 
     /**
      * 删除角色菜单
      *
      * @param roleId .
      */
-    @Select("DELETE FROM `sys_role_permission` WHERE role_id = #{roleId}")
+    @Select("DELETE FROM sys_role_menu WHERE role_id = #{roleId}")
     void deleteRoleMenu(String roleId);
 
     /**
@@ -74,5 +74,5 @@ public interface SysRoleMapper extends BaseMapper<SysRole> {
      * @param roleId .
      * @param menuId .
      */
-    void insertRoleMenu(@Param("roleId") String roleId, @Param("permissionIds") List<String> menuId);
+    void insertRoleMenu(@Param("roleId") String roleId, @Param("menuIds") List<String> menuId);
 }

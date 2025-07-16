@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class PermissionDTO extends BaseEntity implements TreeUtil.Node<PermissionDTO, String> {
+public class MenuDTO extends BaseEntity implements TreeUtil.Node<MenuDTO, String> {
     @Schema(description = "id")
     private String id;
 
@@ -26,7 +26,7 @@ public class PermissionDTO extends BaseEntity implements TreeUtil.Node<Permissio
      * 子类
      */
     @Schema(description = "子类", hidden = true)
-    private List<PermissionDTO> children;
+    private List<MenuDTO> children;
     /**
      * 路由地址
      */
@@ -107,12 +107,12 @@ public class PermissionDTO extends BaseEntity implements TreeUtil.Node<Permissio
     }
 
     @Override
-    public List<PermissionDTO> getChildren() {
+    public List<MenuDTO> getChildren() {
         return children;
     }
 
     @Override
-    public void setChildren(List<PermissionDTO> children) {
+    public void setChildren(List<MenuDTO> children) {
         this.children = children;
     }
 

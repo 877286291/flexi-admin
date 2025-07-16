@@ -4,6 +4,8 @@ import cn.dev33.satoken.session.SaSession;
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -18,13 +20,9 @@ import top.houyuji.common.cache.core.FlexiAdminCache;
 import top.houyuji.common.satoken.domain.LoginRequest;
 import top.houyuji.common.satoken.domain.dto.UserInfoDTO;
 import top.houyuji.common.satoken.domain.vo.LoginInfoVo;
-import top.houyuji.common.satoken.domain.vo.RouteVO;
 import top.houyuji.common.satoken.service.UserLoginService;
-import top.houyuji.common.satoken.service.UserRouterService;
 import top.houyuji.common.satoken.service.mapstruct.LoginInfoMapstruct;
 import top.houyuji.common.satoken.utils.SaTokenUtil;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -35,8 +33,6 @@ public class AuthController {
     private final LoginInfoMapstruct loginInfoMapstruct;
     private final UserLoginService userLoginService;
     private final FlexiAdminCache flexiAdminCache;
-    private final UserRouterService userRouterService;
-
 
     /**
      * 登录
@@ -54,12 +50,12 @@ public class AuthController {
             @ApiResponse(
                     responseCode = "500",
                     description = "登录异常",
-                    content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = R.class))
+                    content = @Content(schema = @Schema(implementation = R.class))
             ),
             @ApiResponse(
                     responseCode = "401",
                     description = "认证失败",
-                    content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = R.class))
+                    content = @Content(schema = @Schema(implementation = R.class))
             )
     })
     public R<LoginInfoVo> loginByUsername(@Validated @RequestBody LoginRequest query) {
@@ -96,36 +92,12 @@ public class AuthController {
             @ApiResponse(
                     responseCode = "500",
                     description = "获取用户信息异常",
-                    content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = R.class))
+                    content = @Content(schema = @Schema(implementation = R.class))
             )
     })
     public R<LoginInfoVo> userInfo() {
         UserInfoDTO currentUser = SaTokenUtil.getCurrentUser();
         return R.ok(loginInfoMapstruct.toDTO(currentUser));
-    }
-
-    /**
-     * 获取用户路由
-     */
-    @GetMapping("/routes")
-    @Operation(summary = "获取用户路由")
-    @ApiResponses({
-            @ApiResponse(
-                    responseCode = "0",
-                    description = "获取用户路由成功"
-            ),
-            @ApiResponse(
-                    responseCode = "500",
-                    description = "获取用户路由异常",
-                    content = @io.swagger.v3.oas.annotations.media.Content(schema = @io.swagger.v3.oas.annotations.media.Schema(implementation = R.class))
-            )
-    })
-    public R<List<RouteVO>> routes() {
-        UserInfoDTO currentUser = SaTokenUtil.getCurrentUser();
-        if (currentUser == null) {
-            return R.error("获取当前用户失败");
-        }
-        return R.ok(userRouterService.getRoutes(currentUser.getId()));
     }
 
     @PostMapping("/logout")

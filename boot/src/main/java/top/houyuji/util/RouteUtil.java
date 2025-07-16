@@ -7,7 +7,7 @@ import top.houyuji.common.base.utils.CollectionUtil;
 import top.houyuji.common.base.utils.TreeUtil;
 import top.houyuji.common.satoken.domain.vo.RouteMetaVO;
 import top.houyuji.common.satoken.domain.vo.RouteVO;
-import top.houyuji.sys.domain.dto.PermissionDTO;
+import top.houyuji.sys.domain.dto.MenuDTO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +20,8 @@ public class RouteUtil {
      * @param list .
      * @return .
      */
-    public List<RouteVO> buildRoutes(List<PermissionDTO> list) {
-        List<PermissionDTO> tree = buildTree(list);
+    public List<RouteVO> buildRoutes(List<MenuDTO> list) {
+        List<MenuDTO> tree = buildTree(list);
         if (CollectionUtil.isEmpty(tree)) {
             return null;
         }
@@ -35,7 +35,7 @@ public class RouteUtil {
      * @param dataList 数据
      * @return 树
      */
-    private List<PermissionDTO> buildTree(List<PermissionDTO> dataList) {
+    private List<MenuDTO> buildTree(List<MenuDTO> dataList) {
         if (CollectionUtil.isEmpty(dataList)) {
             return null;
         }
@@ -53,7 +53,7 @@ public class RouteUtil {
      * @param dtoList .
      * @return .x
      */
-    private List<RouteVO> _buildRoutes(@Nonnull List<PermissionDTO> dtoList) {
+    private List<RouteVO> _buildRoutes(@Nonnull List<MenuDTO> dtoList) {
         List<RouteVO> routes = new ArrayList<>();
         dtoList.forEach(
                 item -> {
@@ -69,7 +69,7 @@ public class RouteUtil {
                     // 路由元信息
                     route.setMeta(buildMeta(item));
                     // 子路由
-                    List<PermissionDTO> children = item.getChildren();
+                    List<MenuDTO> children = item.getChildren();
                     if (CollectionUtil.isNotEmpty(children)) {
                         route.setChildren(_buildRoutes(children));
                     }
@@ -85,7 +85,7 @@ public class RouteUtil {
      * @param dto .
      * @return .
      */
-    private RouteMetaVO buildMeta(PermissionDTO dto) {
+    private RouteMetaVO buildMeta(MenuDTO dto) {
         RouteMetaVO meta = new RouteMetaVO();
         // 菜单标题
         meta.setTitle(dto.getTitle());
@@ -114,7 +114,7 @@ public class RouteUtil {
      * @param dto .
      * @return .
      */
-    private boolean isRoot(PermissionDTO dto) {
+    private boolean isRoot(MenuDTO dto) {
         return null == dto.getParentId();
     }
 }

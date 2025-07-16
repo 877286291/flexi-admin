@@ -27,9 +27,4 @@ public class LoginInfoVo implements Serializable {
     private List<String> permissions;
     @Schema(description = "角色")
     private List<String> roles;
-    /**
-     * 商户标识
-     */
-    @Schema(description = "商户标识")
-    private String sysCode;
 }

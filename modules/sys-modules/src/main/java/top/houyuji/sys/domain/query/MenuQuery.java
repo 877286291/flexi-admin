@@ -13,7 +13,7 @@ import top.houyuji.common.query.annotation.Like;
 @Setter
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = true)
-public class PermissionQuery extends BaseQuery {
+public class MenuQuery extends BaseQuery {
     /**
      * 菜单名称
      */

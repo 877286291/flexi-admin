@@ -14,8 +14,8 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @EqualsAndHashCode
 @ToString
-@TableName("sys_role_permission")
-public class SysRolePermission implements Serializable {
+@TableName("sys_role_menu")
+public class SysRoleMenu implements Serializable {
     /**
      * 角色id
      */
@@ -23,5 +23,5 @@ public class SysRolePermission implements Serializable {
     /**
      * 权限id
      */
-    private String permissionId;
+    private String menuId;
 }

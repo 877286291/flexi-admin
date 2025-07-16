@@ -4,7 +4,7 @@ import jakarta.annotation.Nonnull;
 import top.houyuji.common.base.enums.MenuTypeEnums;
 import top.houyuji.common.base.utils.CollectionUtil;
 import top.houyuji.common.base.utils.TreeUtil;
-import top.houyuji.sys.domain.dto.PermissionDTO;
+import top.houyuji.sys.domain.dto.MenuDTO;
 import top.houyuji.sys.domain.vo.MenuTreeVO;
 
 import java.util.ArrayList;
@@ -17,11 +17,11 @@ public class MenuUtil {
      * @param dtoList .
      * @return .
      */
-    public static List<MenuTreeVO> buildMenuTree(List<PermissionDTO> dtoList, boolean filterButton) {
+    public static List<MenuTreeVO> buildMenuTree(List<MenuDTO> dtoList, boolean filterButton) {
         if (CollectionUtil.isEmpty(dtoList)) {
             return null;
         }
-        List<PermissionDTO> tree = buildTree(dtoList, filterButton);
+        List<MenuDTO> tree = buildTree(dtoList, filterButton);
         if (CollectionUtil.isEmpty(tree)) {
             return null;
         }
@@ -35,12 +35,12 @@ public class MenuUtil {
      * @param filterButton 是否过滤按钮
      * @return 树
      */
-    private static List<PermissionDTO> buildTree(List<PermissionDTO> dataList, boolean filterButton) {
+    private static List<MenuDTO> buildTree(List<MenuDTO> dataList, boolean filterButton) {
         if (CollectionUtil.isEmpty(dataList)) {
             return null;
         }
         if (filterButton) {
-            dataList.removeIf(PermissionDTO -> MenuTypeEnums.Menu_4.getValue().equals(PermissionDTO.getMenuType()));
+            dataList.removeIf(MenuDTO -> MenuTypeEnums.Menu_4.getValue().equals(MenuDTO.getMenuType()));
         }
         if (CollectionUtil.isEmpty(dataList)) {
             return null;
@@ -48,7 +48,7 @@ public class MenuUtil {
         return TreeUtil.buildTree(dataList);
     }
 
-    private static List<MenuTreeVO> _buildMenuTree(@Nonnull List<PermissionDTO> dtoList) {
+    private static List<MenuTreeVO> _buildMenuTree(@Nonnull List<MenuDTO> dtoList) {
         List<MenuTreeVO> menuTree = new ArrayList<>();
         dtoList.forEach(
                 item -> {
@@ -58,7 +58,7 @@ public class MenuUtil {
                     tree.setTitle(item.getTitle());
                     tree.setId(item.getId());
                     //子类
-                    List<PermissionDTO> children = item.getChildren();
+                    List<MenuDTO> children = item.getChildren();
                     if (CollectionUtil.isNotEmpty(children)) {
                         tree.setChildren(_buildMenuTree(children));
                     }

@@ -120,12 +120,12 @@ public class RoleController {
      * 查询角色权限
      *
      * @param roleId 角色id
-     * @return 权限id
+     * @return 菜单id
      */
-    @GetMapping("/permission")
+    @GetMapping("/menus")
     @Operation(summary = "查询角色权限")
-    public R<List<String>> getPermissionIds(@RequestParam @NotBlank(message = "不能为空") String roleId) {
-        List<String> res = sysRoleService.getPermissionIds(roleId);
+    public R<List<String>> getMenuIds(@RequestParam @NotBlank(message = "不能为空") String roleId) {
+        List<String> res = sysRoleService.getMenuIds(roleId);
         return R.ok(res);
     }
 
@@ -136,11 +136,11 @@ public class RoleController {
      * @param menuIds 菜单id
      * @return 是否成功
      */
-    @PutMapping("/assignPermission/{roleId}")
-    @Operation(summary = "分配权限")
-    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "菜单与权限ID", required = true)
-    public R<String> assignPermission(@PathVariable @NotBlank(message = "不能为空") String roleId,
-                                      @RequestBody List<String> menuIds) {
+    @PutMapping("/assignMenu/{roleId}")
+    @Operation(summary = "分配菜单")
+    @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "菜单ID", required = true)
+    public R<String> assignMenu(@PathVariable @NotBlank(message = "不能为空") String roleId,
+                                @RequestBody List<String> menuIds) {
         sysRoleService.assign(roleId, menuIds);
         return R.ok();
     }

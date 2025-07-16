@@ -15,14 +15,14 @@ import top.houyuji.common.base.exception.ServiceException;
 import top.houyuji.common.base.utils.CollectionUtil;
 import top.houyuji.common.mybatis.core.service.BaseService;
 import top.houyuji.common.query.mybatis.plus.QueryHelper;
-import top.houyuji.sys.domain.dto.PermissionDTO;
-import top.houyuji.sys.domain.dto.PermissionSaveDTO;
-import top.houyuji.sys.domain.entity.SysPermission;
+import top.houyuji.sys.domain.dto.MenuDTO;
+import top.houyuji.sys.domain.dto.MenuSaveDTO;
+import top.houyuji.sys.domain.entity.SysMenu;
 import top.houyuji.sys.domain.entity.SysRole;
-import top.houyuji.sys.domain.query.PermissionQuery;
-import top.houyuji.sys.mapper.SysPermissionMapper;
-import top.houyuji.sys.service.mapstruct.SysPermissionMapstruct;
-import top.houyuji.sys.service.mapstruct.SysPermissionSaveMapstruct;
+import top.houyuji.sys.domain.query.MenuQuery;
+import top.houyuji.sys.mapper.SysMenuMapper;
+import top.houyuji.sys.service.mapstruct.SysMenuMapstruct;
+import top.houyuji.sys.service.mapstruct.SysMenuSaveMapstruct;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,10 +31,10 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class SysPermissionService extends BaseService<SysPermissionMapper, SysPermission> {
+public class SysMenuService extends BaseService<SysMenuMapper, SysMenu> {
 
-    private final SysPermissionMapstruct sysPermissionMapstruct;
-    private final SysPermissionSaveMapstruct sysPermissionSaveMapstruct;
+    private final SysMenuMapstruct sysMenuMapstruct;
+    private final SysMenuSaveMapstruct sysMenuSaveMapstruct;
     @Lazy
     @Resource
     private SysRoleService sysRoleService;
@@ -45,14 +45,14 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      * @param userId .
      * @return .
      */
-    public List<PermissionDTO> userRoutes(String userId) {
+    public List<MenuDTO> userRoutes(String userId) {
         List<SysRole> roles = sysRoleService.listByUserId(userId);
         if (CollectionUtil.isEmpty(roles)) {
             return null;
         }
         List<String> roleIds = CollectionUtil.listToList(roles, SysRole::getId);
-        List<SysPermission> sysPermissions = listByRoleIds(roleIds);
-        return sysPermissionMapstruct.toDTOList(sysPermissions);
+        List<SysMenu> sysMenus = listByRoleIds(roleIds);
+        return sysMenuMapstruct.toDTOList(sysMenus);
     }
 
     /**
@@ -61,7 +61,7 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      * @param userId 用户id
      * @return 权限
      */
-    public List<SysPermission> listByUserId(String userId) {
+    public List<SysMenu> listByUserId(String userId) {
         List<SysRole> roles = sysRoleService.listByUserId(userId);
         if (CollectionUtil.isEmpty(roles)) {
             return null;
@@ -76,7 +76,7 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      * @param roleIds 角色id
      * @return 权限
      */
-    public List<SysPermission> listByRoleIds(List<String> roleIds) {
+    public List<SysMenu> listByRoleIds(List<String> roleIds) {
         return baseMapper.listByRoleIds(roleIds);
     }
 
@@ -86,7 +86,7 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      * @param roleId 角色id
      * @return 权限
      */
-    public List<SysPermission> listByRoleId(String roleId) {
+    public List<SysMenu> listByRoleId(String roleId) {
         return baseMapper.listByRoleIds(Collections.singletonList(roleId));
     }
 
@@ -97,11 +97,11 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      * @param query .
      * @return .
      */
-    public List<PermissionDTO> list(PermissionQuery query) {
-        QueryWrapper<SysPermission> queryWrapper = QueryHelper.ofBean(query);
+    public List<MenuDTO> list(MenuQuery query) {
+        QueryWrapper<SysMenu> queryWrapper = QueryHelper.ofBean(query);
         queryWrapper = QueryHelper.order(queryWrapper, query);
-        List<SysPermission> list = list(queryWrapper);
-        return sysPermissionMapstruct.toDTOList(list);
+        List<SysMenu> list = list(queryWrapper);
+        return sysMenuMapstruct.toDTOList(list);
     }
 
     /**
@@ -109,13 +109,13 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      *
      * @return .
      */
-    public List<PermissionDTO> findAllEnabled() {
-        LambdaQueryWrapper<SysPermission> queryWrapper = Wrappers
-                .lambdaQuery(SysPermission.class)
-                .eq(SysPermission::getEnabled, true)
-                .orderByAsc(SysPermission::getRank);
-        List<SysPermission> list = list(queryWrapper);
-        return sysPermissionMapstruct.toDTOList(list);
+    public List<MenuDTO> findAllEnabled() {
+        LambdaQueryWrapper<SysMenu> queryWrapper = Wrappers
+                .lambdaQuery(SysMenu.class)
+                .eq(SysMenu::getEnabled, true)
+                .orderByAsc(SysMenu::getRank);
+        List<SysMenu> list = list(queryWrapper);
+        return sysMenuMapstruct.toDTOList(list);
     }
 
     /**
@@ -124,8 +124,8 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      * @param dto .
      */
     @Transactional(rollbackFor = Exception.class)
-    public void save(PermissionSaveDTO dto) {
-        SysPermission entity = sysPermissionSaveMapstruct.toEntity(dto);
+    public void save(MenuSaveDTO dto) {
+        SysMenu entity = sysMenuSaveMapstruct.toEntity(dto);
         save(entity);
     }
 
@@ -135,15 +135,15 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
      * @param dto .
      */
     @Transactional(rollbackFor = Exception.class)
-    public void updateById(PermissionSaveDTO dto) {
-        SysPermission saveData = sysPermissionSaveMapstruct.toEntity(dto);
+    public void updateById(MenuSaveDTO dto) {
+        SysMenu saveData = sysMenuSaveMapstruct.toEntity(dto);
         if (null == saveData.getId()) {
             throw new ServiceException("id不能为空");
         }
         if (dto.getId().equals(dto.getParentId())) {
             throw new ServiceException("上级不能是自己");
         }
-        SysPermission entity = getById(dto.getId());
+        SysMenu entity = getById(dto.getId());
         // 保证相关数据不会被修改
         BeanUtil.copyProperties(saveData, entity, CopyOptions.create().ignoreNullValue());
         updateById(entity);
@@ -161,7 +161,7 @@ public class SysPermissionService extends BaseService<SysPermissionMapper, SysPe
             throw new ServiceException("请先删除子节点");
         }
         // 与角色已绑定的权限不能删除
-        boolean existed = baseMapper.existsRolePermission(id);
+        boolean existed = baseMapper.existsRoleMenu(id);
         if (existed) {
             throw new ServiceException("已绑定角色，不能删除");
         }

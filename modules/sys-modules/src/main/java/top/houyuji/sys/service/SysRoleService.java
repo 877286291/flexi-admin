@@ -134,10 +134,10 @@ public class SysRoleService extends BaseService<SysRoleMapper, SysRole> {
      * 获取权限id
      *
      * @param roleId 角色id
-     * @return 权限id
+     * @return 菜单id
      */
-    public List<String> getPermissionIds(String roleId) {
-        return baseMapper.getPermissionIdsByRoleId(roleId);
+    public List<String> getMenuIds(String roleId) {
+        return baseMapper.getMenuIdsByRoleId(roleId);
     }
 
     /**

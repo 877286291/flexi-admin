@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import top.houyuji.common.base.exception.UsernameNotFoundException;
 import top.houyuji.common.base.utils.StrUtil;
 import top.houyuji.common.satoken.domain.dto.UserInfoDTO;
-import top.houyuji.sys.domain.entity.SysPermission;
+import top.houyuji.sys.domain.entity.SysMenu;
 import top.houyuji.sys.domain.entity.SysRole;
 import top.houyuji.sys.domain.entity.SysUser;
-import top.houyuji.sys.service.SysPermissionService;
+import top.houyuji.sys.service.SysMenuService;
 import top.houyuji.sys.service.SysRoleService;
 import top.houyuji.sys.service.SysUserService;
 
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class UserLoginService implements top.houyuji.common.satoken.service.UserLoginService {
     private final SysUserService sysUserService;
     private final SysRoleService sysRoleService;
-    private final SysPermissionService sysPermissionService;
+    private final SysMenuService sysMenuService;
 
     @Override
     public UserInfoDTO findByUsername(String username) {
@@ -45,8 +45,8 @@ public class UserLoginService implements top.houyuji.common.satoken.service.User
         }
         // 角色
         List<SysRole> roles = sysRoleService.listByUserId(user.getId());
-        // 权限
-        List<SysPermission> permissions = sysPermissionService.listByUserId(user.getId());
+        // 菜单
+        List<SysMenu> menus = sysMenuService.listByUserId(user.getId());
 
         UserInfoDTO userInfo = new UserInfoDTO();
 
@@ -69,20 +69,20 @@ public class UserLoginService implements top.houyuji.common.satoken.service.User
         // 角色
         userInfo.setRoles(getRolesByAdmin(roles));
         // 权限
-        userInfo.setPermissions(getPermissionsByAdmin(permissions));
+        userInfo.setPermissions(getPermissionsByAdmin(menus));
         // 是否启用
         userInfo.setEnabled(user.getEnabled());
         return userInfo;
     }
 
 
-    private List<String> getPermissionsByAdmin(List<SysPermission> permissions) {
-        if (permissions == null || permissions.isEmpty()) {
+    private List<String> getPermissionsByAdmin(List<SysMenu> menus) {
+        if (menus == null || menus.isEmpty()) {
             return null;
         }
-        return permissions.stream()
+        return menus.stream()
                 .filter(e -> Boolean.TRUE.equals(e.getEnabled()))
-                .map(SysPermission::getPermission)
+                .map(SysMenu::getPermission)
                 .filter(StrUtil::isNotBlank)
                 .collect(Collectors.toList());
     }

@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/sys/notice")
 @Slf4j
 @RequiredArgsConstructor
-@Tag(name = "系统公告管理")
+@Tag(name = "公告管理")
 public class NoticeController {
     private final SysNoticeService sysNoticeService;
 

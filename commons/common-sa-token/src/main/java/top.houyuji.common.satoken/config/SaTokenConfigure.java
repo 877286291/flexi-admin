@@ -37,13 +37,13 @@ public class SaTokenConfigure implements WebMvcConfigurer {
             SaRouter.match(SaHttpMethod.DELETE).match("/sys/role", r -> StpUtil.checkPermission("sys:role:delete"));
             SaRouter.match(SaHttpMethod.PUT).match("/sys/role", r -> StpUtil.checkPermission("sys:role:update"));
             SaRouter.match(SaHttpMethod.GET).match("/sys/role", r -> StpUtil.checkPermission("sys:role:query"));
-            SaRouter.match(SaHttpMethod.PUT).match("/sys/role/assignPermission", r -> StpUtil.checkPermission("sys:role:assignPermission"));
-            // 权限管理
-            SaRouter.match(SaHttpMethod.POST).match("/sys/permission", r -> StpUtil.checkPermission("sys:permission:add"));
-            SaRouter.match(SaHttpMethod.DELETE).match("/sys/permission", r -> StpUtil.checkPermission("sys:permission:delete"));
-            SaRouter.match(SaHttpMethod.PUT).match("/sys/permission", r -> StpUtil.checkPermission("sys:permission:update"));
-            SaRouter.match(SaHttpMethod.GET).match("/sys/permission", r -> StpUtil.checkPermission("sys:permission:query"));
-            SaRouter.match(SaHttpMethod.GET).match("/sys/permission/menu/tree", r -> StpUtil.checkPermission("sys:permission:query"));
+            SaRouter.match(SaHttpMethod.PUT).match("/sys/role/assignMenu", r -> StpUtil.checkPermission("sys:role:assignMenu"));
+            // 菜单管理
+            SaRouter.match(SaHttpMethod.POST).match("/sys/menu", r -> StpUtil.checkPermission("sys:menu:add"));
+            SaRouter.match(SaHttpMethod.DELETE).match("/sys/menu", r -> StpUtil.checkPermission("sys:menu:delete"));
+            SaRouter.match(SaHttpMethod.PUT).match("/sys/menu", r -> StpUtil.checkPermission("sys:menu:update"));
+            SaRouter.match(SaHttpMethod.GET).match("/sys/menu", r -> StpUtil.checkPermission("sys:menu:query"));
+            SaRouter.match(SaHttpMethod.GET).match("/sys/menu/menu/tree", r -> StpUtil.checkPermission("sys:menu:query"));
             // 系统公告管理
             SaRouter.match(SaHttpMethod.POST).match("/sys/notice", r -> StpUtil.checkPermission("sys:notice:add"));
             SaRouter.match(SaHttpMethod.DELETE).match("/sys/notice", r -> StpUtil.checkPermission("sys:notice:delete"));
