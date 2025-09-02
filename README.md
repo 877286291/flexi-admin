@@ -4,7 +4,7 @@
 
 ## 🚀 项目特性
 
-- **现代化技术栈**: 基于 Spring Boot 3.5.3 + Java 17
+- **现代化技术栈**: 基于 Spring Boot 3.5.3 + Java 21
 - **模块化架构**: 清晰的模块分离，便于维护和扩展
 - **权限管理**: 集成 Sa-Token 框架，提供完善的权限控制
 - **数据持久化**: 使用 MyBatis-Plus 3.5.12，支持多种数据库
@@ -36,32 +36,37 @@ flexi-admin/
 ## 🛠️ 技术栈
 
 ### 核心框架
+
 - **Spring Boot**: 3.5.3
-- **Java**: 17
+- **Java**: 21
 - **Maven**: 3.x
 
 ### 数据层
+
 - **MyBatis-Plus**: 3.5.12
 - **MySQL**: 9.3.0
 - **连接池**: HikariCP
 
 ### 安全认证
+
 - **Sa-Token**: 1.44.0
 - **JWT**: 4.4.0
 
 ### 工具库
+
 - **Hutool**: 5.8.27
 - **Guava**: 33.4.8-jre
 - **Lombok**: 1.18.38
 - **MapStruct**: 1.5.5.Final
 
 ### 文档与测试
+
 - **SpringDoc**: 2.5.0
 - **JUnit 5**: 5.10.3
 
 ## 📋 环境要求
 
-- **JDK**: 17 或更高版本
+- **JDK**: 21 或更高版本
 - **Maven**: 3.6 或更高版本
 - **MySQL**: 8.0 或更高版本
 - **内存**: 建议 4GB 以上
@@ -104,9 +109,11 @@ mvn spring-boot:run
 ## 📦 模块说明
 
 ### Boot 模块
+
 系统启动入口，包含 Web 配置、数据库连接、模块依赖等。
 
 ### Commons 模块
+
 - **common-api**: 定义系统 API 接口和数据结构
 - **common-base**: 提供基础工具类和通用功能
 - **common-cache**: 缓存管理，支持多种缓存策略
@@ -115,6 +122,7 @@ mvn spring-boot:run
 - **common-sa-token**: 权限认证和会话管理
 
 ### Modules 模块
+
 - **sys-modules**: 系统管理功能，如用户、角色、权限等
 - **biz-modules**: 业务功能模块，根据具体业务需求扩展
 
@@ -195,4 +203,4 @@ docker run -d -p 8080:8080 --name flexi-admin flexi-admin
 
 ---
 
-**注意**: 这是一个开发中的项目，API 和功能可能会发生变化。建议在生产环境使用前进行充分测试。 
+**注意**: 这是一个开发中的项目，API 和功能可能会发生变化。建议在生产环境使用前进行充分测试。
