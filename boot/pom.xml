@@ -50,6 +50,11 @@
             <artifactId>biz-modules</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!-- SpringDoc OpenAPI (仅API，无UI) -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-api</artifactId>
+        </dependency>
     </dependencies>
     
     <build>
