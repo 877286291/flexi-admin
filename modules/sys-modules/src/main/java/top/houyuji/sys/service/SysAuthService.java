@@ -73,7 +73,7 @@ public class SysAuthService {
 
     private List<String> getPermissionsByAdmin(List<SysMenu> menus) {
         if (menus == null || menus.isEmpty()) {
-            return null;
+            return java.util.Collections.emptyList();
         }
         return menus.stream()
                 .filter(e -> Boolean.TRUE.equals(e.getEnabled()))
@@ -84,7 +84,7 @@ public class SysAuthService {
 
     private List<String> getRolesByAdmin(List<SysRole> roles) {
         if (roles == null || roles.isEmpty()) {
-            return null;
+            return java.util.Collections.emptyList();
         }
         return roles.stream()
                 .filter(e -> Boolean.TRUE.equals(e.getEnabled()))

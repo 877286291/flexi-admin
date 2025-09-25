@@ -50,7 +50,7 @@ public class SysMenuService extends BaseService<SysMenuMapper, SysMenu> {
     public List<MenuDTO> userRoutes(String userId) {
         List<SysRole> roles = sysRoleService.listByUserId(userId);
         if (CollectionUtil.isEmpty(roles)) {
-            return null;
+            return Collections.emptyList();
         }
         List<String> roleIds = CollectionUtil.listToList(roles, SysRole::getId);
         List<SysMenu> sysMenus = listByRoleIds(roleIds);
@@ -84,7 +84,7 @@ public class SysMenuService extends BaseService<SysMenuMapper, SysMenu> {
     public List<SysMenu> listByUserId(String userId) {
         List<SysRole> roles = sysRoleService.listByUserId(userId);
         if (CollectionUtil.isEmpty(roles)) {
-            return null;
+            return Collections.emptyList();
         }
         List<String> roleIds = CollectionUtil.listToList(roles, SysRole::getId);
         return listByRoleIds(roleIds);
